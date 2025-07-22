@@ -3,15 +3,32 @@ package com.chorniak.api.client;
 import com.chorniak.api.model.Book;
 import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.given;
+import static io.restassured.http.ContentType.JSON;
+import static org.apache.http.HttpStatus.SC_OK;
 
 public class BookClient {
     private static final String BASE_PATH = "/api/v1/Books";
 
-    public Response createBook(Book book) {
+    public Book createBook(Book book) {
         return given()
-                .contentType("application/json")
+                .contentType(JSON)
                 .body(book)
+                .when()
+                .post(BASE_PATH)
+                .then()
+                .contentType(JSON)
+                .statusCode(SC_OK)
+                .and()
+                .extract()
+                .body()
+                .as(Book.class);
+    }
+
+    public Response sendCreateBookRequest(String requestBody) {
+        return given()
+                .contentType(JSON)
+                .body(requestBody)
                 .when()
                 .post(BASE_PATH);
     }
@@ -30,7 +47,7 @@ public class BookClient {
 
     public Response updateBook(int id, Book book) {
         return given()
-                .contentType("application/json")
+                .contentType(JSON)
                 .body(book)
                 .when()
                 .put(BASE_PATH + "/" + id);
