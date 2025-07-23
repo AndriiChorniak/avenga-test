@@ -3,6 +3,8 @@ package com.chorniak.api.client;
 import com.chorniak.api.model.Book;
 import io.restassured.response.Response;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.apache.http.HttpStatus.SC_OK;
@@ -33,29 +35,62 @@ public class BookClient {
                 .post(BASE_PATH);
     }
 
-    public Response getAllBooks() {
+    public List<Book> getAllBooks() {
         return given()
                 .when()
-                .get(BASE_PATH);
+                .get(BASE_PATH)
+                .then()
+                .contentType(JSON)
+                .statusCode(SC_OK)
+                .extract()
+                .body()
+                .jsonPath()
+                .getList(".", Book.class);
     }
 
-    public Response getBookById(int id) {
+    public Book getBookById(int id) {
         return given()
                 .when()
-                .get(BASE_PATH + "/" + id);
+                .get(String.format("%s/%d", BASE_PATH, id))
+                .then()
+                .contentType(JSON)
+                .statusCode(SC_OK)
+                .extract()
+                .body()
+                .as(Book.class);
     }
 
-    public Response updateBook(int id, Book book) {
+    public Response sendGetBookByIdRequest(int id) {
+        return given()
+                .when()
+                .get(String.format("%s/%d", BASE_PATH, id));
+    }
+
+    public Book updateBook(int id, Book book) {
         return given()
                 .contentType(JSON)
                 .body(book)
                 .when()
-                .put(BASE_PATH + "/" + id);
+                .put(String.format("%s/%d", BASE_PATH, id))
+                .then()
+                .contentType(JSON)
+                .statusCode(SC_OK)
+                .extract()
+                .body()
+                .as(Book.class);
+    }
+
+    public Response sendUpdateBookRequest(int id, String requestBody) {
+        return given()
+                .contentType(JSON)
+                .body(requestBody)
+                .when()
+                .put(String.format("%s/%d", BASE_PATH, id));
     }
 
     public Response deleteBook(int id) {
         return given()
                 .when()
-                .delete(BASE_PATH + "/" + id);
+                .delete(String.format("%s/%d", BASE_PATH, id));
     }
 } 
