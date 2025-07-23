@@ -2,7 +2,7 @@ package com.chorniak.api.tests.book;
 
 import com.chorniak.api.client.BookClient;
 import com.chorniak.api.model.Book;
-import com.chorniak.api.tests.base.BaseTest;
+import com.chorniak.api.tests.BaseTest;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Severity;

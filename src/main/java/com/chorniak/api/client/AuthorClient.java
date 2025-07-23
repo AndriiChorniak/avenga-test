@@ -6,19 +6,18 @@ import io.restassured.response.Response;
 
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.apache.http.HttpStatus.SC_OK;
 
-public class AuthorClient {
-    private static final String BASE_PATH = "/api/v1/Authors";
+public class AuthorClient extends BaseClient {
+    private static final String AUTHORS_ENDPOINT = "/Authors";
 
     public Author createAuthor(Author author) {
-        return given()
+        return getRequestSpec()
                 .contentType(ContentType.JSON)
                 .body(author)
                 .when()
-                .post(BASE_PATH)
+                .post(AUTHORS_ENDPOINT)
                 .then()
                 .contentType(JSON)
                 .statusCode(SC_OK)
@@ -29,17 +28,17 @@ public class AuthorClient {
     }
 
     public Response sendCreateAuthorRequest(String requestBody) {
-        return given()
+        return getRequestSpec()
                 .contentType(ContentType.JSON)
                 .body(requestBody)
                 .when()
-                .post(BASE_PATH);
+                .post(AUTHORS_ENDPOINT);
     }
 
     public List<Author> getAllAuthors() {
-        return given()
+        return getRequestSpec()
                 .when()
-                .get(BASE_PATH)
+                .get(AUTHORS_ENDPOINT)
                 .then()
                 .contentType(JSON)
                 .statusCode(SC_OK)
@@ -50,9 +49,9 @@ public class AuthorClient {
     }
 
     public Author getAuthorById(int id) {
-        return given()
+        return getRequestSpec()
                 .when()
-                .get(String.format("%s/%d", BASE_PATH, id))
+                .get(String.format("%s/%d", AUTHORS_ENDPOINT, id))
                 .then()
                 .contentType(JSON)
                 .statusCode(SC_OK)
@@ -62,17 +61,17 @@ public class AuthorClient {
     }
 
     public Response sendGetAuthorByIdRequest(int id) {
-        return given()
+        return getRequestSpec()
                 .when()
-                .get(String.format("%s/%d", BASE_PATH, id));
+                .get(String.format("%s/%d", AUTHORS_ENDPOINT, id));
     }
 
     public Author updateAuthor(int id, Author author) {
-        return given()
+        return getRequestSpec()
                 .contentType(ContentType.JSON)
                 .body(author)
                 .when()
-                .put(String.format("%s/%d", BASE_PATH, id))
+                .put(String.format("%s/%d", AUTHORS_ENDPOINT, id))
                 .then()
                 .contentType(JSON)
                 .statusCode(SC_OK)
@@ -82,16 +81,16 @@ public class AuthorClient {
     }
 
     public Response sendUpdateAuthorRequest(int id, String requestBody) {
-        return given()
+        return getRequestSpec()
                 .contentType(ContentType.JSON)
                 .body(requestBody)
                 .when()
-                .put(String.format("%s/%d", BASE_PATH, id));
+                .put(String.format("%s/%d", AUTHORS_ENDPOINT, id));
     }
 
     public Response deleteAuthor(int id) {
-        return given()
+        return getRequestSpec()
                 .when()
-                .delete(String.format("%s/%d", BASE_PATH, id));
+                .delete(String.format("%s/%d", AUTHORS_ENDPOINT, id));
     }
 } 

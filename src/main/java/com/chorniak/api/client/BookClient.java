@@ -5,19 +5,18 @@ import io.restassured.response.Response;
 
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.apache.http.HttpStatus.SC_OK;
 
-public class BookClient {
-    private static final String BASE_PATH = "/api/v1/Books";
+public class BookClient extends BaseClient {
+    private static final String BOOKS_ENDPOINT = "/Books";
 
     public Book createBook(Book book) {
-        return given()
+        return getRequestSpec()
                 .contentType(JSON)
                 .body(book)
                 .when()
-                .post(BASE_PATH)
+                .post(BOOKS_ENDPOINT)
                 .then()
                 .contentType(JSON)
                 .statusCode(SC_OK)
@@ -28,17 +27,17 @@ public class BookClient {
     }
 
     public Response sendCreateBookRequest(String requestBody) {
-        return given()
+        return getRequestSpec()
                 .contentType(JSON)
                 .body(requestBody)
                 .when()
-                .post(BASE_PATH);
+                .post(BOOKS_ENDPOINT);
     }
 
     public List<Book> getAllBooks() {
-        return given()
+        return getRequestSpec()
                 .when()
-                .get(BASE_PATH)
+                .get(BOOKS_ENDPOINT)
                 .then()
                 .contentType(JSON)
                 .statusCode(SC_OK)
@@ -49,9 +48,9 @@ public class BookClient {
     }
 
     public Book getBookById(int id) {
-        return given()
+        return getRequestSpec()
                 .when()
-                .get(String.format("%s/%d", BASE_PATH, id))
+                .get(String.format("%s/%d", BOOKS_ENDPOINT, id))
                 .then()
                 .contentType(JSON)
                 .statusCode(SC_OK)
@@ -61,17 +60,17 @@ public class BookClient {
     }
 
     public Response sendGetBookByIdRequest(int id) {
-        return given()
+        return getRequestSpec()
                 .when()
-                .get(String.format("%s/%d", BASE_PATH, id));
+                .get(String.format("%s/%d", BOOKS_ENDPOINT, id));
     }
 
     public Book updateBook(int id, Book book) {
-        return given()
+        return getRequestSpec()
                 .contentType(JSON)
                 .body(book)
                 .when()
-                .put(String.format("%s/%d", BASE_PATH, id))
+                .put(String.format("%s/%d", BOOKS_ENDPOINT, id))
                 .then()
                 .contentType(JSON)
                 .statusCode(SC_OK)
@@ -81,16 +80,16 @@ public class BookClient {
     }
 
     public Response sendUpdateBookRequest(int id, String requestBody) {
-        return given()
+        return getRequestSpec()
                 .contentType(JSON)
                 .body(requestBody)
                 .when()
-                .put(String.format("%s/%d", BASE_PATH, id));
+                .put(String.format("%s/%d", BOOKS_ENDPOINT, id));
     }
 
     public Response deleteBook(int id) {
-        return given()
+        return getRequestSpec()
                 .when()
-                .delete(String.format("%s/%d", BASE_PATH, id));
+                .delete(String.format("%s/%d", BOOKS_ENDPOINT, id));
     }
 } 
