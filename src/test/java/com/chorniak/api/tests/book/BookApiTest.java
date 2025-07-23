@@ -13,6 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.IntStream;
 
 import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
@@ -23,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 //NOTE: Since there is no DB in the API, we cannot verify the actual creation/deletion/updating of a book.
 public class BookApiTest extends BaseTest {
     private final BookClient bookClient = new BookClient();
+    private Random random = new Random();
 
     @Epic("Books API")
     @Severity(SeverityLevel.CRITICAL)
@@ -30,7 +32,7 @@ public class BookApiTest extends BaseTest {
     @Test
     void verifyBookCreatedSuccessfully() {
         Book request = Book.builder()
-                .id(111)
+                .id(random.nextInt(1, 9999))
                 .title("The Test Book")
                 .description("A request for testing purposes")
                 .pageCount(200)
@@ -44,7 +46,7 @@ public class BookApiTest extends BaseTest {
     }
 
     @Epic("Books API")
-    @Severity(SeverityLevel.CRITICAL)
+    @Severity(SeverityLevel.NORMAL)
     @Description("Verify that a book can be created successfully with an empty JSON")
     @Test
     void verifyBookCreatedSuccessfullyWithEmptyBody() {
@@ -64,7 +66,7 @@ public class BookApiTest extends BaseTest {
     }
 
     @Epic("Books API")
-    @Severity(SeverityLevel.CRITICAL)
+    @Severity(SeverityLevel.NORMAL)
     @Description("Verify that a book is not created with an incorrect request body")
     @ParameterizedTest
     @ValueSource(strings = {"", " ", "invalid json", "{title: 'Test Book'}", "{id: 1, title: 'Test Book'}"})
@@ -141,7 +143,7 @@ public class BookApiTest extends BaseTest {
     }
 
     @Epic("Books API")
-    @Severity(SeverityLevel.CRITICAL)
+    @Severity(SeverityLevel.NORMAL)
     @Description("Verify that a book is not updated with an empty request body")
     @ParameterizedTest
     @ValueSource(strings = {"", " ", "invalid json", "{title: 'Test Book'}", "{id: 1, title: 'Test Book'}"})
