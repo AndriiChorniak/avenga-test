@@ -27,5 +27,6 @@ The latest test execution report is available here:
    ```bash
     mvn clean test allure:report
    ```
-
 The code is designed to make it easy possible to inject the the project as a dependency in other projects (e.x UI test automation framework).
+There is CI flow using GitHub Actions that runs tests on every push to the `master` branch. 
+The results are published to the [Allure Report](https://andriichorniak.github.io/avenga-test/).
