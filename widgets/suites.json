@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"21e87675d115126be4c2afeaee9d3fc2","name":"com.chorniak.api.tests.book.BookApiTest","statistic":{"failed":0,"broken":0,"skipped":0,"passed":25,"unknown":0,"total":25}},{"uid":"2bc373e2571ef85a81c0d97f58fdabb8","name":"com.chorniak.api.tests.author.AuthorApiTest","statistic":{"failed":0,"broken":0,"skipped":0,"passed":22,"unknown":0,"total":22}}]}
